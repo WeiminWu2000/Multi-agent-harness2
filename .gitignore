@@ -19,3 +19,6 @@ dist/
 
 # Regenerable numerical figures
 results/figures/
+
+# User-created task packets and data
+tasks/

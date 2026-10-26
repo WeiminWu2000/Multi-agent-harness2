@@ -14,7 +14,13 @@ ROOT = Path(__file__).resolve().parents[1]
 def prepare(args):
     config = json.loads(Path(args.config).read_text())
     from .task_context import input_packet
-    packet = input_packet(json.loads(Path(args.task).read_text()), 'historical_task_only')
+    task_path = Path(args.task)
+    raw = json.loads(task_path.read_text()) if task_path.suffix == '.json' else {'task_inst': task_path.read_text(), 'output_fname': args.output_file}
+    packet = input_packet(raw, 'historical_task_only')
+    if args.rounds is not None:
+        if not 1 <= args.rounds <= 10:
+            raise ValueError('--rounds must be between 1 and 10')
+        config['outer_cycles'] = args.rounds
     if not isinstance(packet['task_inst'], str) or not packet['task_inst'].strip():
         raise ValueError('task_inst must be nonempty text')
     output_name = Path(packet['output_fname'])
@@ -119,17 +125,21 @@ def execute(args, prepared):
     return 1 if result['status'] == 'error' else 0
 
 
-def main(argv=None):
+def run_main(argv=None):
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--config', default=str(ROOT / 'config/study.json'))
     p.add_argument('--method', choices=['base', 'harness2', 'mass', 'codex'], default='harness2')
-    p.add_argument('--task', required=True, help='JSON containing task_inst and output_fname')
+    p.add_argument('--task', required=True, help='Task JSON, or a plain-text/Markdown instruction file')
+    p.add_argument('--output-file', default='pred_results/result.csv', help='Required output for a text task; JSON tasks specify this inside their packet')
+    p.add_argument('--rounds', type=int, help='Sequential refinement rounds (default: 3); total task allowance is unchanged')
     p.add_argument('--data', required=True, help='Public input directory only')
     p.add_argument('--output', required=True, help='New run directory')
     p.add_argument('--task-id', type=int, default=999)
     p.add_argument('--science-env', default=str(ROOT / '.venv-science'))
     p.add_argument('--budget', type=float, default=1.0)
-    p.add_argument('--execute', action='store_true', help='Make paid model calls; default is a free configuration check')
+    mode = p.add_mutually_exclusive_group()
+    mode.add_argument('--execute', action='store_true', help='Make paid model calls; default is a free configuration check')
+    mode.add_argument('--dry-run', action='store_true', help='Preview the task and configuration without model calls (default)')
     args = p.parse_args(argv)
     try:
         prepared = prepare(args)
@@ -141,6 +151,27 @@ def main(argv=None):
         return execute(args, prepared)
     except (ValueError, OSError, KeyError, RuntimeError, ImportError) as exc:
         p.exit(2, f'{type(exc).__name__}: {exc}\n')
+
+def main(argv=None):
+    args = list(sys.argv[1:] if argv is None else argv)
+    if args and args[0] in ('demo', 'setup', 'check', 'init', 'report'):
+        command = args.pop(0)
+        if command == 'demo':
+            from .demo import main as action
+        else:
+            from . import tools
+            action = getattr(tools, command)
+        try:
+            return action(args)
+        except (ValueError, OSError, RuntimeError) as exc:
+            print(f'{type(exc).__name__}: {exc}', file=sys.stderr)
+            return 2
+    if args and args[0] == 'run':
+        args.pop(0)
+    elif not args or args in (['--help'], ['-h']):
+        print('Multi-Agent Harness²\n\nCommands:\n  demo    Run a no-credential toy example with real Python executions\n  setup   Fetch pinned prompt dependencies and create a science environment\n  check   Check local prerequisites without model calls\n  init    Create a task packet and public-data directory\n  run     Run the scientific team on your task (dry-run by default)\n  report  Inspect a saved run and find its deliverables\n\nUse mah2 <command> --help for options.')
+        return 0
+    return run_main(args)
 
 if __name__ == '__main__':
     raise SystemExit(main())

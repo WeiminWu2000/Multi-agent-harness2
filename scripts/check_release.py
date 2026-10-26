@@ -2,7 +2,7 @@
 import re,subprocess,sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-BLOCKED={'private','runs','vendor','.runtime','overleaf'}
+BLOCKED={'private','runs','vendor','.runtime','overleaf','tasks'}
 PATTERNS=[
  re.compile(rb'sk-or-v1-[a-fA-F0-9]{32,}'),
  re.compile(rb'\bolp_[A-Za-z0-9]{20,}'),

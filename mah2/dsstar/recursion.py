@@ -3,10 +3,12 @@ from __future__ import annotations
 import copy,json
 from pathlib import Path
 from .harness import initial
-from .optimizer import Experiment
 
 
-def run_recursive(config,root,method,packet,data,library,depth,experiment_class=Experiment):
+def run_recursive(config,root,method,packet,data,library,depth,experiment_class=None):
+    if experiment_class is None:
+        from .optimizer import Experiment
+        experiment_class = Experiment
     if type(depth) is not int or depth<1:raise ValueError('depth must be a positive integer')
     root=Path(root);root.mkdir(parents=True,exist_ok=False)
     c=copy.deepcopy(config);c['allowance_usd']=config['allowance_usd']/depth

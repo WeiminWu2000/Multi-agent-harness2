@@ -30,3 +30,39 @@ class ReleaseTests(unittest.TestCase):
   self.assertTrue(check_content('innocent.txt',token))
   self.assertTrue(check_content('private/task.json',b'{}'))
   self.assertFalse(check_content('README.md',b'export OPENROUTER_API_KEY_FILE=/path/to/key'))
+
+ def test_task_starter_preserves_existing_files(self):
+  with tempfile.TemporaryDirectory() as tmp,contextlib.redirect_stdout(io.StringIO()),contextlib.redirect_stderr(io.StringIO()):
+   task=Path(tmp)/'analysis'
+   self.assertEqual(main(['init',str(task)]),0)
+   self.assertTrue((task/'data').is_dir())
+   packet=json.loads((task/'task.json').read_text())
+   self.assertEqual(packet['output_fname'],'pred_results/result.csv')
+   with self.assertRaises(SystemExit):main(['init',str(task)])
+   self.assertEqual(json.loads((task/'task.json').read_text()),packet)
+ def test_text_task_and_rounds_dry_run(self):
+  with tempfile.TemporaryDirectory() as tmp,patch('mah2.gateway.Gateway',side_effect=AssertionError('No API calls')):
+   task=Path(tmp)/'request.md';task.write_text('Join tables by id and sort numerically.')
+   output=Path(tmp)/'run';stream=io.StringIO()
+   args=['run','--task',str(task),'--data',str(ROOT/'examples/join/data'),'--output',str(output),'--rounds','2','--dry-run']
+   with contextlib.redirect_stdout(stream):self.assertEqual(main(args),0)
+   self.assertEqual(json.loads(stream.getvalue())['rounds'],2)
+   self.assertFalse(output.exists())
+ def test_report_rejects_escaping_selected_artifact(self):
+  with tempfile.TemporaryDirectory() as tmp,contextlib.redirect_stdout(io.StringIO()),contextlib.redirect_stderr(io.StringIO()):
+   (Path(tmp)/'result.json').write_text(json.dumps({'selected':'../outside'}))
+   with self.assertRaises(SystemExit):main(['report','--run',tmp])
+ def test_report_distinguishes_unfinished_run(self):
+  with tempfile.TemporaryDirectory() as tmp,contextlib.redirect_stderr(io.StringIO()):
+   with self.assertRaises(SystemExit):main(['report','--run',tmp])
+
+ def test_setup_ignores_only_untracked_python_cache(self):
+  import subprocess
+  from scripts.fetch_dependencies import checkout_dirty
+  with tempfile.TemporaryDirectory() as tmp:
+   subprocess.run(['git','init','-q',tmp],check=True)
+   cache=Path(tmp)/'module/__pycache__';cache.mkdir(parents=True)
+   (cache/'module.cpython-312.pyc').write_bytes(b'cache')
+   self.assertFalse(checkout_dirty(tmp))
+   (Path(tmp)/'user-edit.py').write_text('# preserve this file')
+   self.assertTrue(checkout_dirty(tmp))

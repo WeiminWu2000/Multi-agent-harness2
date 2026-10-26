@@ -6,6 +6,12 @@ DEPENDENCIES={
  'ds-star':('https://github.com/google-research/ds-star.git','6c05b01e30f01489af12708e99eda932e44d10ba'),
  'harness2':('https://github.com/google-research/harness2.git','1cfe254e8d25b15f37048c3730134686abe60335'),
  'mass':('https://github.com/SakanaAI/mass.git','fb403581bed2c974b3f99e7236224169da643079')}
+def checkout_dirty(dest):
+ # Python imports create bytecode in upstream trees; these are not source edits.
+ tracked=subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],cwd=dest,text=True).strip()
+ untracked=subprocess.check_output(['git','ls-files','--others','--exclude-standard','-z'],cwd=dest,text=True).split('\0')
+ return bool(tracked or any(name and '__pycache__' not in Path(name).parts for name in untracked))
+
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--include-mass',action='store_true',help='Obtain MASS separately; its upstream NOTICE does not assign an open-source license');a=p.parse_args()
  for name,(url,rev) in DEPENDENCIES.items():
@@ -13,7 +19,7 @@ def main():
   dest=ROOT/'vendor'/name
   if dest.exists():
    actual=subprocess.check_output(['git','rev-parse','HEAD'],cwd=dest,text=True).strip()
-   dirty=subprocess.check_output(['git','status','--porcelain'],cwd=dest,text=True).strip()
+   dirty=checkout_dirty(dest)
    if actual!=rev or dirty:raise SystemExit(f'{name}: existing checkout differs; inspect it manually')
    print(name,'already pinned');continue
   dest.mkdir(parents=True)

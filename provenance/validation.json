@@ -2,7 +2,7 @@
   "date": "2026-10-26",
   "python": "Python 3.12.1",
   "unit_tests": {
-    "passed": 69,
+    "passed": 74,
     "failed": 0
   },
   "checks": [
@@ -13,7 +13,10 @@
     "result counts and paired exact tests recomputed",
     "numerical plots regenerated",
     "pip check",
-    "tracked content scan"
+    "tracked content scan",
+    "no-dependency clean-tree two-round demo with site packages disabled",
+    "task starter, text-task configuration and report boundary tests",
+    "idempotent setup with generated dependency bytecode"
   ],
   "paid_model_calls": 0,
   "limitations": [
