@@ -7,3 +7,4 @@ license: Apache-2.0
 authors:
   - name: "Multi-Agent Harness² contributors"
 abstract: "Task-local revision of scientific agent role instructions and coordination contracts using executable public evidence."
+repository-code: "https://github.com/WeiminWu2000/Multi-agent-harness2"

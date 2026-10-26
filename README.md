@@ -11,6 +11,8 @@ Multi-Agent Harness² runs a team of seven roles, proposes separate changes to r
 Use **Linux, Python 3.11+ and bubblewrap** (`bwrap`). Python 3.12 is used in our release checks. From this checkout:
 
 ```bash
+git clone https://github.com/WeiminWu2000/Multi-agent-harness2.git
+cd Multi-agent-harness2
 python -m venv .venv
 source .venv/bin/activate
 pip install -e .

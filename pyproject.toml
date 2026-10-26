@@ -15,6 +15,10 @@ dependencies = ["requests>=2.31,<3"]
 test = ["openai>=2,<3", "numpy>=2,<3"]
 plots = ["matplotlib>=3.9,<4", "numpy>=2,<3"]
 
+[project.urls]
+Repository = "https://github.com/WeiminWu2000/Multi-agent-harness2"
+Issues = "https://github.com/WeiminWu2000/Multi-agent-harness2/issues"
+
 [project.scripts]
 mah2 = "mah2.cli:main"
 
