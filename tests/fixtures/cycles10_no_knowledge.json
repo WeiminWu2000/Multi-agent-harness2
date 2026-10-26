@@ -1,0 +1,198 @@
+{
+  "benchmark": "ScienceAgentBench verified",
+  "pilot_type": "development feasibility; some tasks/source groups previously observed",
+  "tasks": [
+    5,
+    60,
+    16,
+    67,
+    34,
+    15,
+    71,
+    102,
+    12,
+    87
+  ],
+  "groups": {
+    "5": "psa-lab/predicting-activity-by-machine-learning",
+    "60": "nriesterer/syllogistic-nvc",
+    "16": "felixjwong/antibioticsai",
+    "67": "brand-d/cogsci-jnmf",
+    "34": "neuropsychology/NeuroKit",
+    "15": "swansonk14/admet_ai",
+    "71": "ZitongLu1996/EEG2EEG",
+    "102": "ppdebreuck/modnet",
+    "12": "kexinhuang12345/DeepPurpose",
+    "87": "SciTools/iris"
+  },
+  "previously_observed_task_ids": [
+    5,
+    15,
+    16,
+    34,
+    60,
+    67,
+    87
+  ],
+  "selection_seed": 20261023,
+  "selection_rule": "From all 102 verified metadata rows, exclude image/PDF/SVG outputs to avoid external image-judge cost; uniformly shuffle repositories, choose 10, sample one task within each using public metadata only. No outcome-based selection.",
+  "methods": [
+    "whole_team_harness2"
+  ],
+  "repetitions": 1,
+  "model_training": false,
+  "model": "z-ai/glm-5.3-flashx",
+  "provider": "openrouter",
+  "provider_pin": "Z.AI FP8 through OpenRouter; no fallback to Chutes",
+  "qwen_code_version": "0.20.0",
+  "mass_commit": "fb403581bed2c974b3f99e7236224169da643079",
+  "budget": {
+    "status": "At most $0.30 new spending/task within original $1 lineage cap, $1.50 calibration and $31 cumulative study caps.",
+    "currency": "USD",
+    "input_per_million": 0.37,
+    "output_per_million": 1.25,
+    "per_method_task_cap": 1.0,
+    "study_cap": 10.0,
+    "calibration_cap": 1.5,
+    "total_cap": 31.0,
+    "charged_components": [
+      "solver",
+      "subagents",
+      "optimizer",
+      "composer",
+      "self_judge",
+      "retries"
+    ],
+    "external_reporting_cost": "official machine graders; cluster compute excluded",
+    "price_source": "https://openrouter.ai/z-ai/glm-5.3-flashx/"
+  },
+  "paired_seeds": [
+    20261023
+  ],
+  "initial_workflow": "config/workflow.json",
+  "evaluation": "official task-specific grader, immutable submission and exact public-input paths",
+  "no_claim": "No benchmark advantage established; completed parent run scored 1/10 versus saved MASS 2/10.",
+  "execution": {
+    "rollout_seconds": 900,
+    "replay_seconds": 900,
+    "cpus": 4,
+    "memory_gib": 32,
+    "max_output_tokens": 8192
+  },
+  "provider_slug": "z-ai",
+  "reasoning": {
+    "effort": "low"
+  },
+  "sampling_note": "GLM requires reasoning; low effort requested in all three methods. Endpoint does not support seed.",
+  "task_environments": {
+    "102": ".venv-modnet"
+  },
+  "scientific_task_fitting_allowed": true,
+  "supports_seed": false,
+  "supports_response_format": true,
+  "run_group": "cycles10_contract_cycle3",
+  "calibration_group": "cycles10_contract_cycle3_calibration",
+  "evaluation_group": "cycles10_contract_cycle3_evaluation",
+  "outer_cycles": 3,
+  "concurrency": 2,
+  "dsstar": {
+    "max_refinements": 3,
+    "max_code_attempts": 2,
+    "max_debug_rounds": 4,
+    "max_route_attempts": 2,
+    "rollout_seconds": 1800,
+    "execution_seconds": 600,
+    "memory_gib": 32,
+    "cpus": 4,
+    "stage_shares": {
+      "reference": 0.25,
+      "proposal_a": 0.08,
+      "proposal_b": 0.08,
+      "candidate_a": 0.14,
+      "candidate_b": 0.14,
+      "composer": 0.1,
+      "successor": 0.1,
+      "reflector": 0.03,
+      "selector": 0.08
+    },
+    "editor_evidence_max_bytes": 48000,
+    "structured_editors": true,
+    "recovered_commit": "68e158e4cdd50e823d2c7f4f9d86d90e74845357",
+    "budget_policy": "carry_forward",
+    "public_context": true,
+    "artifact_feedback": true,
+    "finalization_repairs": 1,
+    "lesson_only_memory": true,
+    "runnable_fallback": true,
+    "public_selection": true,
+    "selection_order_seed": 20261024,
+    "bounded_analysis": true,
+    "analysis_seconds": 60,
+    "public_input_reads": true,
+    "public_probes": true,
+    "public_probe_seconds": 90,
+    "evidence_gated_selection": true,
+    "require_public_checks": true,
+    "public_output_contract": true,
+    "selection_probe_limit": 3,
+    "selection_tool_limit": 6,
+    "selection_requires_check": true
+  },
+  "memory_policy": "Reset per task; carry inherited harness, generic within-task lessons and all runnable archived candidates into the third round.",
+  "comparison": "Adaptive third Whole-Team Harness2 round with all runnable historical candidates retained for public-only selection, versus saved two-round MASS-RHI. Same task-only public information, GLM endpoint, official graders and $1 cumulative lineage cap per task. Different iteration count and actual spending; development results, not a fresh confirmation.",
+  "mass_fidelity": "Released pipeline.search + RHI main and free-form design. Adapter replaces task paths, sandbox execution and API transport only. Fixed-reference/champion selection preserved.",
+  "calibration_caps": {
+    "whole_team_harness2": 0.04
+  },
+  "calibration_stage_policy": "Four exact live-generated fixture replays validated without budget truncation; after a selector-only source change, reuse these outputs and require fresh executed matched selection. AST guard excludes changes outside Experiment.select; all other runtime source/config hashes must match. Shared calibration cap remains $1.50.",
+  "mass_rhi": {
+    "iterations": 2,
+    "episode_share": 0.18,
+    "rhi_stage_shares": [
+      0.06,
+      0.12,
+      0.1
+    ],
+    "initial_workflow": "config/workflow.json",
+    "budget_policy": "carry_forward"
+  },
+  "shared_calibration_groups": [
+    "cycles10_calibration",
+    "cycles10_repair_calibration",
+    "cycles10_corrected_calibration",
+    "cycles10_no_knowledge_calibration",
+    "cycles10_task_only_calibration",
+    "cycles10_grounded_calibration",
+    "cycles10_checked_calibration",
+    "cycles10_probe_json_calibration",
+    "cycles10_contract_review_calibration",
+    "cycles10_contract_cycle3_calibration"
+  ],
+  "shared_run_groups": [
+    "cycles10",
+    "cycles10_repair",
+    "cycles10_corrected",
+    "cycles10_no_knowledge",
+    "cycles10_task_only",
+    "cycles10_grounded",
+    "cycles10_checked",
+    "cycles10_probe_json",
+    "cycles10_contract_review",
+    "cycles10_contract_cycle3"
+  ],
+  "packet_name": "packet.json",
+  "public_context": true,
+  "retained_methods": {
+    "mass_rhi": "cycles10_repair"
+  },
+  "input_profile": "historical_task_only",
+  "require_calibration_hashes": true,
+  "candidate_parent_group": "cycles10_contract_review",
+  "terminal_review_cap_usd": 0.3,
+  "review_calibration_attempt": 2,
+  "continuation_round": 3,
+  "continuation_calibration_cap_usd": 0.05273,
+  "continuation_calibration_parent": "runs/cycles10_contract_cycle3_calibration/whole_team_harness2/fixture_attempt1",
+  "generation_validation_commit": "6a3ac82",
+  "generation_validation_source": "private/calibration_source/6a3ac82_optimizer.py"
+}

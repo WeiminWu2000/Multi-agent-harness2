@@ -1,0 +1,122 @@
+{
+  "benchmark": "ScienceAgentBench verified",
+  "pilot_type": "development feasibility; some tasks/source groups previously observed",
+  "tasks": [
+    5,
+    60,
+    16,
+    67,
+    34,
+    15,
+    71,
+    102,
+    12,
+    87
+  ],
+  "groups": {
+    "5": "psa-lab/predicting-activity-by-machine-learning",
+    "60": "nriesterer/syllogistic-nvc",
+    "16": "felixjwong/antibioticsai",
+    "67": "brand-d/cogsci-jnmf",
+    "34": "neuropsychology/NeuroKit",
+    "15": "swansonk14/admet_ai",
+    "71": "ZitongLu1996/EEG2EEG",
+    "102": "ppdebreuck/modnet",
+    "12": "kexinhuang12345/DeepPurpose",
+    "87": "SciTools/iris"
+  },
+  "previously_observed_task_ids": [
+    5,
+    15,
+    16,
+    34,
+    60,
+    67,
+    87
+  ],
+  "selection_seed": 20261023,
+  "selection_rule": "From all 102 verified metadata rows, exclude image/PDF/SVG outputs to avoid external image-judge cost; uniformly shuffle repositories, choose 10, sample one task within each using public metadata only. No outcome-based selection.",
+  "methods": [
+    "mass_workflow_search",
+    "multi_agent_harness2"
+  ],
+  "repetitions": 1,
+  "model_training": false,
+  "model": "z-ai/glm-5.3-flashx",
+  "provider": "openrouter",
+  "provider_pin": "Z.AI FP8 through OpenRouter; no fallback to Chutes",
+  "qwen_code_version": "0.20.0",
+  "mass_commit": "fb403581bed2c974b3f99e7236224169da643079",
+  "baseline": "paper Algorithm 2 direct incumbent comparison; adaptation from released fixed-reference driver must be documented",
+  "shared_selection": "same self-judge and public execution checks; official verdicts withheld",
+  "budget": {
+    "status": "Qwen spending retained; GLM receives equal remaining study allowance across twenty runs",
+    "currency": "USD",
+    "input_per_million": 0.37,
+    "output_per_million": 1.25,
+    "per_method_task_cap": 0.845413,
+    "study_cap": 16.90826,
+    "calibration_cap": 2.0,
+    "total_cap": 22.0,
+    "charged_components": [
+      "solver",
+      "subagents",
+      "optimizer",
+      "composer",
+      "self_judge",
+      "retries"
+    ],
+    "external_reporting_cost": "official machine graders; cluster compute excluded",
+    "price_source": "https://openrouter.ai/z-ai/glm-5.3-flashx/",
+    "prior_model_study_upper_usd": 3.0917204
+  },
+  "paired_seeds": [
+    20261023
+  ],
+  "initial_workflow": "config/workflow.json",
+  "evaluation": "official task-specific grader, immutable submission and exact public-input paths",
+  "no_claim": "No benchmark advantage established.",
+  "execution": {
+    "rollout_seconds": 900,
+    "replay_seconds": 900,
+    "cpus": 4,
+    "memory_gib": 32,
+    "max_output_tokens": 8192
+  },
+  "provider_slug": "z-ai",
+  "algorithm": {
+    "max_iterations": 50,
+    "rollout_cap": 0.18,
+    "proposal_cap": 0.025,
+    "judge_cap": 0.015,
+    "composer_cap": 0.025,
+    "min_cycle_budget": {
+      "mass_workflow_search": 0.22,
+      "multi_agent_harness2": 0.63
+    },
+    "selection": "direct incumbent; same self-judge; reject non-runnable candidates",
+    "memory": "within-task feedback only, both arms; no cross-task transfer in this pilot"
+  },
+  "reasoning": {
+    "effort": "low"
+  },
+  "sampling_note": "GLM endpoint requires reasoning; low effort requested identically in both arms. Seed is unsupported by this endpoint and omitted.",
+  "task_environments": {
+    "102": ".venv-modnet"
+  },
+  "scientific_task_fitting_allowed": true,
+  "workflow_adapter": "MASS-derived evidence and objectives; common JSON workflow; full replacements for baseline/composer, validated patches for local/coordination proposals",
+  "supports_seed": false,
+  "supports_response_format": true,
+  "run_group": "glm_pilot10",
+  "calibration_group": "glm_calibration",
+  "evaluation_group": "glm_evaluation",
+  "calibration_algorithm": {
+    "rollout_cap": 0.1,
+    "min_cycle_budget": {
+      "mass_workflow_search": 0,
+      "multi_agent_harness2": 0
+    }
+  },
+  "calibration_budget_note": "Attempt one validation cycle under remaining hard per-method calibration cap; no minimum-cycle admission reserve. Main-study admission thresholds unchanged."
+}

@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-26",
+  "python": "Python 3.12.1",
+  "unit_tests": {
+    "passed": 69,
+    "failed": 0
+  },
+  "checks": [
+    "clean virtual-environment editable install",
+    "installed CLI configuration check without paid calls",
+    "synthetic program in real bubblewrap sandbox",
+    "public inputs read-only and host-only sentinel inaccessible",
+    "result counts and paired exact tests recomputed",
+    "numerical plots regenerated",
+    "pip check",
+    "tracked content scan"
+  ],
+  "paid_model_calls": 0,
+  "limitations": [
+    "No fresh GLM or Codex inference was performed for release validation.",
+    "Official scientific evaluations require separately prepared benchmark data and environments.",
+    "Credential detection is pattern-based and cannot guarantee exhaustive detection."
+  ]
+}

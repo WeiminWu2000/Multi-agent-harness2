@@ -1,0 +1,142 @@
+{
+  "benchmark": "ScienceAgentBench verified",
+  "pilot_type": "development feasibility; some tasks/source groups previously observed",
+  "tasks": [
+    5,
+    60,
+    16,
+    67,
+    34,
+    15,
+    71,
+    102,
+    12,
+    87
+  ],
+  "groups": {
+    "5": "psa-lab/predicting-activity-by-machine-learning",
+    "60": "nriesterer/syllogistic-nvc",
+    "16": "felixjwong/antibioticsai",
+    "67": "brand-d/cogsci-jnmf",
+    "34": "neuropsychology/NeuroKit",
+    "15": "swansonk14/admet_ai",
+    "71": "ZitongLu1996/EEG2EEG",
+    "102": "ppdebreuck/modnet",
+    "12": "kexinhuang12345/DeepPurpose",
+    "87": "SciTools/iris"
+  },
+  "previously_observed_task_ids": [
+    5,
+    15,
+    16,
+    34,
+    60,
+    67,
+    87
+  ],
+  "selection_seed": 20261023,
+  "selection_rule": "From all 102 verified metadata rows, exclude image/PDF/SVG outputs to avoid external image-judge cost; uniformly shuffle repositories, choose 10, sample one task within each using public metadata only. No outcome-based selection.",
+  "methods": [
+    "plain_ds_star",
+    "whole_team_harness2",
+    "mass_rhi"
+  ],
+  "repetitions": 1,
+  "model_training": false,
+  "model": "z-ai/glm-5.3-flashx",
+  "provider": "openrouter",
+  "provider_pin": "Z.AI FP8 through OpenRouter; no fallback to Chutes",
+  "qwen_code_version": "0.20.0",
+  "mass_commit": "fb403581bed2c974b3f99e7236224169da643079",
+  "budget": {
+    "status": "New study authorized by user; prior stopped study costs reported separately",
+    "currency": "USD",
+    "input_per_million": 0.37,
+    "output_per_million": 1.25,
+    "per_method_task_cap": 1.0,
+    "study_cap": 30.0,
+    "calibration_cap": 1.0,
+    "total_cap": 31.0,
+    "charged_components": [
+      "solver",
+      "subagents",
+      "optimizer",
+      "composer",
+      "self_judge",
+      "retries"
+    ],
+    "external_reporting_cost": "official machine graders; cluster compute excluded",
+    "price_source": "https://openrouter.ai/z-ai/glm-5.3-flashx/"
+  },
+  "paired_seeds": [
+    20261023
+  ],
+  "initial_workflow": "config/workflow.json",
+  "evaluation": "official task-specific grader, immutable submission and exact public-input paths",
+  "no_claim": "No benchmark advantage established.",
+  "execution": {
+    "rollout_seconds": 900,
+    "replay_seconds": 900,
+    "cpus": 4,
+    "memory_gib": 32,
+    "max_output_tokens": 8192
+  },
+  "provider_slug": "z-ai",
+  "reasoning": {
+    "effort": "low"
+  },
+  "sampling_note": "GLM requires reasoning; low effort requested in all three methods. Endpoint does not support seed.",
+  "task_environments": {
+    "102": ".venv-modnet"
+  },
+  "scientific_task_fitting_allowed": true,
+  "supports_seed": false,
+  "supports_response_format": true,
+  "run_group": "cycles10",
+  "calibration_group": "cycles10_calibration",
+  "evaluation_group": "cycles10_evaluation",
+  "outer_cycles": 2,
+  "concurrency": 4,
+  "dsstar": {
+    "max_refinements": 3,
+    "max_code_attempts": 2,
+    "max_debug_rounds": 2,
+    "max_route_attempts": 2,
+    "rollout_seconds": 1800,
+    "execution_seconds": 180,
+    "memory_gib": 32,
+    "cpus": 4,
+    "stage_shares": {
+      "reference": 0.2,
+      "proposal_a": 0.05,
+      "proposal_b": 0.05,
+      "candidate_a": 0.2,
+      "candidate_b": 0.2,
+      "composer": 0.07,
+      "successor": 0.2,
+      "reflector": 0.03
+    },
+    "editor_evidence_max_bytes": 48000,
+    "structured_editors": true,
+    "recovered_commit": "68e158e4cdd50e823d2c7f4f9d86d90e74845357"
+  },
+  "memory_policy": "Reset per task; carry within the two Whole-Team cycles only. No cross-task transfer.",
+  "comparison": "equal outer iterations; unequal execution counts; actual USD reported; cap-truncated runs retained",
+  "mass_fidelity": "Released pipeline.search + RHI main and free-form design. Adapter replaces task paths, sandbox execution and API transport only. Fixed-reference/champion selection preserved.",
+  "calibration_caps": {
+    "plain_ds_star": 0.1,
+    "whole_team_harness2": 0.5,
+    "mass_rhi": 0.4
+  },
+  "calibration_stage_policy": "Repeat truncated fixtures with main-study stage limits, under the unspent combined $1 integration ceiling; preserve all attempts.",
+  "mass_rhi": {
+    "iterations": 2,
+    "episode_share": 0.18,
+    "rhi_stage_shares": [
+      0.06,
+      0.12,
+      0.1
+    ],
+    "initial_workflow": "config/workflow.json"
+  }
+}

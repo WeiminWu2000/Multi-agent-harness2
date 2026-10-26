@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "multi-agent-harness2"
+version = "0.1.0"
+description = "Evidence-guided recursive revision of scientific agent teams"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "Apache-2.0"}
+dependencies = ["requests>=2.31,<3"]
+
+[project.optional-dependencies]
+test = ["openai>=2,<3", "numpy>=2,<3"]
+plots = ["matplotlib>=3.9,<4", "numpy>=2,<3"]
+
+[project.scripts]
+mah2 = "mah2.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["mah2*"]

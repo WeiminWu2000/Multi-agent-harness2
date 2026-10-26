@@ -1,0 +1,21 @@
+# Local credentials, datasets, model calls and environments never belong in Git.
+.env
+.env.*
+!.env.example
+*.key
+auth.json
+private
+runs
+vendor
+.runtime
+.venv*
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+.coverage
+
+# Regenerable numerical figures
+results/figures/

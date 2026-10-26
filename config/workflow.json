@@ -1,0 +1,12 @@
+{
+  "roles": {
+    "data_specialist": "Inspect the permitted input data. Identify the columns, shapes, missingness, and train/test boundaries required by the question. Do not invent observations.",
+    "implementer": "Implement the requested scientific procedure with the supplied dependencies. Produce a complete standalone submission.py which regenerates all requested output artifacts from public input files.",
+    "auditor": "Independently check the implementation against the public task, including units, data splits, leakage, required output schema and execution. Fix concrete defects in submission.py and rerun it. Document unresolved issues."
+  },
+  "contracts": {
+    "data_specialist.implementer": "Return a concise data schema and the public task requirements, with actual input paths and evidence for any split assumptions.",
+    "implementer.auditor": "Return submission.py, execution logs and a list of produced artifacts. State assumptions and uncertainties explicitly."
+  },
+  "order": ["data_specialist", "implementer", "auditor"]
+}

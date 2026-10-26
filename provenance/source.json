@@ -1,0 +1,25 @@
+{
+  "source_commit": "2e1948996ac71ab7edfe5f7d4ac2ba361273d430",
+  "source_branch": "glm-coordination",
+  "original_source_sha256": {
+    "mah2/runtime.py": "5639cca32a6faecf399c20c6d86f3d90210323e75ad3804597ad1539032feff7",
+    "mah2/search.py": "f1ddc4c11932b4bbd88545073759013f0c564594777fc12748de14a239502c82",
+    "mah2/relay.py": "907906aac3989368b98b07abcf8c6c70cd9db188250b2e02815b027b5a58e9e6",
+    "mah2/mass_rhi.py": "f01e9e8ea760f5a7a51a7517325c1ee74337347ad5184d7faf6e588bae849cea",
+    "mah2/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mah2/gateway.py": "c72fc87ce4cdbfd3ef62c3eb82215649f426b248cc160d5a53dc233aee7de04d",
+    "mah2/output_contract.py": "29041e9cacdeb55c3bf4796b9acab9fcc2cbb45503531dac1c8b76f295573e8d",
+    "mah2/terminal_review.py": "63da70d5802c6b119ba0a84c6de6d510d7b72c11b5ffc37d36bbb1acd9b196e0",
+    "mah2/public_evidence.py": "05130db8f368c92e66ee5480562fe466e962b953a58445eb276f6fe791b94911",
+    "mah2/task_context.py": "9c104b237488614959975171209655352b33c1c004d1f9d473ab3b8baf2bb038",
+    "mah2/dsstar/rollout.py": "bb6c1b3bd7a0351ce603c41d254def35994e61f22fec940e6991c9520b950a4e",
+    "mah2/dsstar/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mah2/dsstar/optimizer.py": "00a0afa1ae54a64dee93ad76c034a1c5d93a07667c5f3836e919e64ef9590d9e",
+    "mah2/dsstar/provider.py": "0ab935025877f517707a1f2d2aff17a42c87154cfc70a641ac87b9fe731f6705",
+    "mah2/dsstar/recursion.py": "8d7e8eb184a0887d420f78f4039502cc8672532b85be37486f1770f1bb13ed99",
+    "mah2/dsstar/harness.py": "e0462720ec3c10af14b83f6ae210e117beba6623271a84681a3b0e74f7bf3400",
+    "mah2/dsstar/codex_editor.py": "701ccf1be08741c728c014637be7b6732a71cde856cc5c0c7bedc73aa1c6f270",
+    "mah2/dsstar/sandbox.py": "7bd096c807f0504e043ab50695e608de48ff4805e768aa6c1a3e906ef83a402c"
+  },
+  "release_changes": "Environment-based credentials; explicit missing-sandbox error; relative Python symlink handling; new portable CLI; historical search/review/launch code moved to tests/regression_support. Scientific prompts, scoped ownership, recursion and selection preserved."
+}

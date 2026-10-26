@@ -1,0 +1,4 @@
+{
+  "task_inst": "Read data/values.csv and data/labels.csv. Join on id, sort by id, and write pred_results/join.csv with columns id,value,label and no index. Produce a standalone Python program that recreates this output.",
+  "output_fname": "pred_results/join.csv"
+}

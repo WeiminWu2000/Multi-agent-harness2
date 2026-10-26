@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "Please cite the software and the upstream Harness², DS-STAR, MASS, and ScienceAgentBench work listed in README."
+title: "Multi-Agent Harness²: Recursive Revision of Scientific Agent Teams"
+type: software
+version: 0.1.0
+license: Apache-2.0
+authors:
+  - name: "Multi-Agent Harness² contributors"
+abstract: "Task-local revision of scientific agent role instructions and coordination contracts using executable public evidence."

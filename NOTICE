@@ -1,0 +1,26 @@
+Multi-Agent Harness²
+
+The project code is distributed under the accompanying Apache-2.0 license.
+Dependencies retain their respective licenses and notices.
+
+DS-STAR prompt builders:
+https://github.com/google-research/ds-star
+Revision 6c05b01e30f01489af12708e99eda932e44d10ba (Apache-2.0).
+
+Harness² prompt builders:
+https://github.com/google-research/harness2
+Revision 1cfe254e8d25b15f37048c3730134686abe60335 (Apache-2.0).
+
+MASS workflow-search adapter:
+https://github.com/SakanaAI/mass
+Revision fb403581bed2c974b3f99e7236224169da643079.
+The upstream NOTICE states that no public open-source license has been assigned
+to MASS-specific code. MASS is obtained separately and is not redistributed or
+relicensed by this repository. No model-training component is run by our adapter.
+
+Qwen-code and ScienceAgentBench are separately obtained dependencies. Their
+licenses and dataset terms remain applicable. Model weights, credentials,
+benchmark data, reference outputs and generated task artifacts are not included.
+
+The implementation adapts published Harness² and DS-STAR components; it does
+not reproduce every level of Harness² recursion or the full trained MASS system.
