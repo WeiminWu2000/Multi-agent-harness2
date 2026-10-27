@@ -186,6 +186,8 @@ def reflection_evidence(ev,max_bytes=16000):
                   candidates={k:v.get('harness') for k,v in ev.get('candidates',{}).items()},
                   adopted_harness=ev['adopted_harness'],selected_stage=ev.get('selected_stage'),selection=ev.get('selection'),outcomes=outcomes,selected_events=selected[:8],
                   evidence_selection='Selected replay first, then composition-cited events and successor replay/failure; at most eight. Text may be excerpted; artifact manifests are represented by count and a canonical SHA-256 digest.')
+    if ev.get('successor_reuse'):
+        original['successor_reuse']=ev['successor_reuse']
     def clipped(value,limit):
         if isinstance(value,str):return value if len(value)<=limit else value[:limit]+' [EXCERPT]'
         if isinstance(value,list):return [clipped(x,limit) for x in value]
@@ -684,6 +686,8 @@ class Experiment:
         (self.root/'selected_harness.json').write_text(json.dumps(adopted,indent=2))
         (self.root/'commit.json').write_text(json.dumps(commit,indent=2))
         ev['runs']['successor']=evidence(self.root/'successor')
+        if (self.root/'successor_reuse.json').exists():
+            ev['successor_reuse']=json.loads((self.root/'successor_reuse.json').read_text())
         if selected=='previous':ev['runs']['previous']=evidence(self.root/'previous')
         if selected.startswith('archive_'):ev['runs'][selected]=evidence(self.root/selected)
         ev['adopted_harness']=adopted

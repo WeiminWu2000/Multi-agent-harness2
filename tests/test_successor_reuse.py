@@ -47,6 +47,7 @@ class SuccessorReuseTests(unittest.TestCase):
         class OfflineExperiment(Experiment):
             executions=[]
             pools=[]
+            reuse_views=[]
             def run_team(self,stage,harness,packet,data):
                 self.executions.append((self.root.name,stage))
                 p=self.root/stage;p.mkdir();(p/'trace.jsonl').write_text('')
@@ -63,11 +64,14 @@ class SuccessorReuseTests(unittest.TestCase):
             def select(self,packet,choices,fallback):
                 self.pools.append(list(choices))
                 return 'reference',choices['reference'],json.loads((self.root/'reference/outcome.json').read_text())
-            def reflect(self,*args):pass
+            def reflect(self,ev,*args):
+                from mah2.dsstar.optimizer import reflection_evidence
+                self.reuse_views.append(reflection_evidence(ev)['successor_reuse'])
         with tempfile.TemporaryDirectory() as tmp:
             c={'allowance_usd':1,'reuse_identical_successor':True,'public_selection':True,'retain_candidate_archive':True,'runnable_fallback':True}
             run_recursive(c,Path(tmp)/'optimization','whole_team',{'task_inst':'fixture'},Path(tmp),[],2,OfflineExperiment)
             self.assertEqual(len(OfflineExperiment.executions),6)
+            self.assertTrue(all(not x['executed'] and x['source_stage']=='reference' for x in OfflineExperiment.reuse_views))
             self.assertTrue(all(stage!='successor' for _,stage in OfflineExperiment.executions))
             self.assertTrue(all('successor' not in pool for pool in OfflineExperiment.pools))
             self.assertEqual(sum(x.startswith('archive_') for x in OfflineExperiment.pools[1]),3)
