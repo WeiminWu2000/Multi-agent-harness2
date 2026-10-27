@@ -6,6 +6,14 @@ Multi-Agent Harness² runs a team of seven roles, proposes separate changes to r
 
 [Quickstart](#quickstart) · [Your own task](#run-your-own-task) · [Setup](docs/setup.md) · [Task guide](docs/custom_tasks.md) · [Design](docs/architecture.md) · [Experiments](docs/reproduction.md)
 
+## Launch film
+
+Watch our 97-second introduction to Multi-Agent Harness².
+
+[![Watch the Multi-Agent Harness² launch film](docs/assets/launch-poster.jpg)](https://weiminwu2000.github.io/blog/multi-agent-harness.html#film)
+
+[Watch the film](https://weiminwu2000.github.io/blog/multi-agent-harness.html#film) · [Download MP4](https://github.com/WeiminWu2000/Multi-agent-harness2/raw/refs/heads/main/docs/assets/Multi-Agent-Harness2_launch.mp4)
+
 ## Quickstart
 
 Use **Linux, Python 3.11+ and bubblewrap** (`bwrap`). Python 3.12 is used in our release checks. From this checkout:
