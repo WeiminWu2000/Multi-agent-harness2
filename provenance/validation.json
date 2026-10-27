@@ -1,8 +1,8 @@
 {
-  "date": "2026-10-26",
+  "date": "2026-10-27",
   "python": "Python 3.12.1",
   "unit_tests": {
-    "passed": 74,
+    "passed": 79,
     "failed": 0
   },
   "checks": [
@@ -16,7 +16,8 @@
     "tracked content scan",
     "no-dependency clean-tree two-round demo with site packages disabled",
     "task starter, text-task configuration and report boundary tests",
-    "idempotent setup with generated dependency bytecode"
+    "idempotent setup with generated dependency bytecode",
+    "Exact-harness successor reuse: three cache sources, distinct-composition execution, failed/hash-mismatched cache rejection, historical default, and two-round selector/archive integration"
   ],
   "paid_model_calls": 0,
   "limitations": [

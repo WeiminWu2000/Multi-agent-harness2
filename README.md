@@ -77,6 +77,8 @@ mah2 report --run runs/my-analysis
 
 The default is a free configuration check. Every live task shares one GLM allowance across the solver, editors, composition, selection, reflection, and retries. Increasing rounds divides the same task allowance across more rounds. Runs use new output directories; an existing run is never silently overwritten.
 
+To avoid rerunning an identical composed harness, add `--reuse-identical-successor` to a Harness² run. This reuses a runnable reference or candidate from the **same round** when its full harness matches exactly and its program hash verifies. A distinct combined harness still executes. Reuse is recorded in `successor_reuse.json`, and the reused program is not added twice to selection or the archive. This optional mode was **not used in the reported benchmark results**; it saves a team execution on cache hits, but total dollar savings have not been measured.
+
 Text and Markdown task files are supported too:
 
 ```bash

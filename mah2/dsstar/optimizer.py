@@ -477,6 +477,27 @@ class Experiment:
         (self.root/(stage+'_harness.json')).write_text(json.dumps(harness,indent=2))
         return Rollout(self.client(stage),harness,self.c,self.root/stage,data).run(packet)
 
+    def execute_successor(self, harness, packet, data, candidates):
+        """Optionally reuse an identical runnable harness from this round only."""
+        if self.c.get('reuse_identical_successor', False):
+            for label, tested_harness in candidates:
+                if harness != tested_harness:
+                    continue
+                path = self.root / label
+                outcome = json.loads((path / 'outcome.json').read_text())
+                program = path / 'submission.py'
+                if not outcome.get('runnable') or not program.is_file():
+                    continue
+                digest = hashlib.sha256(program.read_bytes()).hexdigest()
+                if digest != outcome.get('program_sha256'):
+                    continue
+                (self.root / 'successor').symlink_to(label, target_is_directory=True)
+                receipt = dict(source_stage=label, program_sha256=digest,
+                               reason='exact_harness_match_within_round', executed=False)
+                (self.root / 'successor_reuse.json').write_text(json.dumps(receipt, indent=2))
+                return outcome
+        return self.run_team('successor', harness, packet, data)
+
     def edit(self,stage,prompt,ev,scope):
         client=self.client(stage)
         view=ev;view_error=None
@@ -636,7 +657,7 @@ class Experiment:
             'coordination change. Retain, revise, merge or reject candidates. Agreement is not '
             'scientific correctness. Preserve uncertainty. A no-op is valid.')
         successor,decision=self.edit('composer',prompt,ev,'composer')
-        final=self.run_team('successor',successor,packet,data)
+        final=self.execute_successor(successor,packet,data,[('reference',base),('candidate_a',a),('candidate_b',b)])
         selected='successor';adopted=successor
         if self.c.get('runnable_fallback') and not final['runnable']:
             # Deterministic public-only safety selection. No official scores or
@@ -647,6 +668,8 @@ class Experiment:
                     selected=label;adopted=harness;final=outcome;break
         if self.c.get('public_selection'):
             choices=dict(reference=base,candidate_a=a,candidate_b=b,successor=successor)
+            if (self.root/'successor_reuse.json').exists():
+                choices.pop('successor')  # The source program is already a choice.
             if (self.root/'previous').exists():choices['previous']=base
             for label,path,harness in retained_candidates or []:
                 if label in choices or not re.fullmatch(r'archive_[0-9]+',label):raise ValueError('Invalid archived candidate label')
@@ -656,6 +679,8 @@ class Experiment:
         commit=dict(method=method,runnable=final['runnable'],official_success=None,
                     selected_stage=selected if final['runnable'] else None,
                     program_sha256=final.get('program_sha256'),fallback=selected if selected!='successor' else 'none')
+        if (self.root/'successor_reuse.json').exists():
+            commit['successor_reused_from']=json.loads((self.root/'successor_reuse.json').read_text())['source_stage']
         (self.root/'selected_harness.json').write_text(json.dumps(adopted,indent=2))
         (self.root/'commit.json').write_text(json.dumps(commit,indent=2))
         ev['runs']['successor']=evidence(self.root/'successor')

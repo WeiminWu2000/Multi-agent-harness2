@@ -41,6 +41,10 @@ def prepare(args):
     science = Path(args.science_env).expanduser().resolve()
     config['science_environment'] = str(science)
     ds = config['dsstar']
+    if args.reuse_identical_successor:
+        if args.method not in ('harness2', 'codex'):
+            raise ValueError('--reuse-identical-successor applies only to harness2 or codex')
+        ds['reuse_identical_successor'] = True
     ds.pop('codex_coordination', None)
     ds['scoped_glm_coordination'] = args.method == 'harness2'
     if args.method == 'codex':
@@ -131,6 +135,7 @@ def run_main(argv=None):
     p.add_argument('--method', choices=['base', 'harness2', 'mass', 'codex'], default='harness2')
     p.add_argument('--task', required=True, help='Task JSON, or a plain-text/Markdown instruction file')
     p.add_argument('--output-file', default='pred_results/result.csv', help='Required output for a text task; JSON tasks specify this inside their packet')
+    p.add_argument('--reuse-identical-successor', action='store_true', help='Reuse a runnable same-round execution when the composed harness matches exactly; not used in the reported study')
     p.add_argument('--rounds', type=int, help='Sequential refinement rounds (default: 3); total task allowance is unchanged')
     p.add_argument('--data', required=True, help='Public input directory only')
     p.add_argument('--output', required=True, help='New run directory')
@@ -146,6 +151,7 @@ def run_main(argv=None):
         if not args.execute:
             print(json.dumps(dict(valid=True, method=args.method, budget_usd=args.budget,
                                   rounds=prepared[0]['outer_cycles'] if args.method in ('harness2', 'codex') else None,
+                                  reuse_identical_successor=prepared[0]['dsstar'].get('reuse_identical_successor', False),
                                   paid_calls=False, note='Configuration check only; runtime dependencies not exercised'), indent=2))
             return 0
         return execute(args, prepared)

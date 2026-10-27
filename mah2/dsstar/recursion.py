@@ -25,6 +25,8 @@ def run_recursive(config,root,method,packet,data,library,depth,experiment_class=
                                  round_index=t,round_count=depth,**extra)
         if c.get('retain_candidate_archive'):
             for label,harness_file in [('reference','reference_harness.json'),('candidate_a','proposal_a_decision.json'),('candidate_b','proposal_b_decision.json'),('successor','composer_decision.json')]:
+                if label=='successor' and (directory/'successor_reuse.json').exists():
+                    continue  # Already archived under its original stage.
                 path=directory/label
                 outcome=json.loads((path/'outcome.json').read_text())
                 if outcome['runnable']:

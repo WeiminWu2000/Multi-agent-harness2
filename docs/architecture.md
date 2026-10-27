@@ -19,3 +19,5 @@ The runtime mounts only the specified public inputs and the scientific environme
 The public CLI produces `packet.json`, `config.json`, input/source hashes, API accounting, candidate traces, `commit.json`, and `result.json`. Its result explicitly says `evaluation: not_run`: replay success is not official scientific success. Scientific scoring is a separate host-side step.
 
 The measured system is task-local. It does not train language models, rewrite the optimizer itself, add arbitrary roles, or transfer an experience library across benchmark tasks. Scientific predictor fitting is permitted when the task requires it.
+
+Optional `reuse_identical_successor` skips successor execution only for an exactly identical, runnable same-round harness whose saved program hash verifies. It records the source stage and exposes the same immutable artifacts through an alias. The selector and recursive archive omit the duplicate successor entry. Failed executions and distinct compositions are executed normally. Historical defaults and study results retain the original four-execution schedule.
